@@ -7,8 +7,10 @@ class Calculator extends Component {
 
   render() {
     return (
-      <div >
+      <div className="center">
         <p class="bg-primary"><h1>Calculator</h1></p>
+        
+        
         <CalculatorDisplay />
 
 
@@ -19,14 +21,12 @@ class Calculator extends Component {
             <CalculatorButton className="btn" value="8" />
             <CalculatorButton className="btn" value="9" />
             <CalculatorButton className="btn btn-primary" value="+" />
-            <CalculatorButton className="btn btn-danger" value="C" />
-
+            
             <div >
               <CalculatorButton className="btn" value="4" />
               <CalculatorButton className="btn" value="5" />
               <CalculatorButton className="btn" value="6" />
               <CalculatorButton className="btn btn-primary" value="-" />
-              <CalculatorButton className="btn btn-success" value="=" />
             </div>
 
             <div >
@@ -41,6 +41,11 @@ class Calculator extends Component {
               <CalculatorButton className="btn" value="" />
               <CalculatorButton className="btn btn-primary" value="/" />
             </div>
+            <div>
+            <CalculatorButton className="btn btn-danger" value="C" />
+            <CalculatorButton className="btn btn-success" value="=" />
+            </div>
+            
           </div>
         </div>
       </div>

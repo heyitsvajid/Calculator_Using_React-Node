@@ -9,13 +9,13 @@ class CalculatorDisplay extends Component {
                 <table >
                     <tr>
                         <td>
-                            <div className="col-sm-30">
+                            <div>
                                 <input className="form-control" id="displayInput" type="text" placeHolder="Display" disabled />
                             </div>
                         </td>
                         <td><strong>=</strong></td>
                         <td>
-                            <div className="col-sm-30">
+                            <div>
                                 <input className="form-control" id="resultInput" type="text" placeHolder="Result" disabled />
                             </div>
                         </td>
