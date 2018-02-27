@@ -42,7 +42,7 @@ app.use('/api', router);
 router.route('/calculate').post(function (req, res) {
 
     console.log("Request Received on Server");
-    console.log(req);
+    console.log(req.body);
    
     if(req.body.operator && req.body.operand1 && req.body.operand1 ){
         let expression =''; 
@@ -60,8 +60,6 @@ router.route('/calculate').post(function (req, res) {
         let m;
         
         m = regex.exec(expression);
-        console.log(m);
-        
         if(m[0]==expression){
         var serverState = {
             history: expression,
@@ -97,7 +95,7 @@ router.route('/calculate').post(function (req, res) {
             
         }      
     }else{
-        res.json({ message: 'provide operand1, operand2 and operator in JSON format'});        
+        res.json({ message: 'provide operand1, operand2 and operator with POST request in JSON format'});        
     }
     
 });
