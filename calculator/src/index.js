@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import Calculator from './Components/Calculator'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/css/bootstrap-responsive.min.css'
+import 'bootstrap/dist/css/custom.css'
+
 
 ReactDOM.render(<Calculator 
     url='http://localhost:3001/api/calculate'
