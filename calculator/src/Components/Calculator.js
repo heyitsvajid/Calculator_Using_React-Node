@@ -115,11 +115,12 @@ class Calculator extends Component {
   }
 
   handlePosNeg() {
-
+    debugger
     let newCalState = this.state.calculatorState;
+    console.log(newCalState);
+    if( newCalState.operand2 != "" ){
       const index = (newCalState.operand2.toString()).indexOf('-');
       let operand2 = String(newCalState.operand2);
-      debugger
       console.log(newCalState);
       if (index === 0) {
         operand2 = operand2.substring(1);
@@ -129,7 +130,7 @@ class Calculator extends Component {
       newCalState.operand2= operand2 ;
       this.updateState(newCalState);
 
-   
+    }
   }
   render() {
     return (

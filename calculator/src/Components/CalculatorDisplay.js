@@ -5,18 +5,22 @@ class CalculatorDisplay extends Component {
 
     render() {
         return (
-            <div className="form-group">
-                <table >
+            <div className="form-group result-tag">
+                <table>
                     <tr>
                         <td>
                             <div>
-                                <input className="form-control" id="displayInput" type="text" placeHolder="Display" disabled />
+                                <button type="button" className="btn-info">Display</button> 
+                                <input className="form-control" id="displayInput" type="text" placeholder="Display" disabled
+                                value={this.props.calculatorState.operand2 != 0 ? this.props.calculatorState.operand2 : this.props.calculatorState.operand1} />
                             </div>
                         </td>
                         <td><strong>=</strong></td>
                         <td>
                             <div>
-                                <input className="form-control" id="resultInput" type="text" placeHolder="Result" disabled />
+                            <button type="button" className="btn-info">Result</button>
+                                <input className="form-control" id="resultInput" type="text" placeholder="Result" disabled
+                                value={this.props.calculatorState.result} />
                             </div>
                         </td>
                     </tr>
