@@ -11,7 +11,7 @@ class CalculatorDisplay extends Component {
                         <td>
                             <div>
                                 <button type="button" className="btn-info">Display</button> 
-                                <input className="form-control" id="displayInput" type="text" placeholder="Display" disabled
+                                <input className="form-control maxLen" id="displayInput" type="text" placeholder="Display" disabled 
                                 value={this.props.calculatorState.operand2 != 0 ? this.props.calculatorState.operand2 : this.props.calculatorState.operand1} />
                             </div>
                         </td>

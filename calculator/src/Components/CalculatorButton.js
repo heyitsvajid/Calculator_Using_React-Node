@@ -9,7 +9,7 @@ class Calculator extends Component {
     render() {
         return (
 
-            <button className={this.props.className} onClick={this.handleButtonClick.bind(this,this.props.value)}>{this.props.value}  </button>
+            <button  className={this.props.className} onClick={this.handleButtonClick.bind(this,this.props.value)}>{this.props.value}  </button>
 
         )
     }

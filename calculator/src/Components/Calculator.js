@@ -32,7 +32,7 @@ class Calculator extends Component {
     //  newCalState.operand2 = "PLease Provide Correct Input";
     //}
     //else
-    if (newCalState.operand2.length > 30) {
+    if (newCalState.operand2.length > 15) {
       alert("Length Too long"); // length validation
     } else {
       if ((eval(newCalState.operand2) == 0)
@@ -66,6 +66,7 @@ class Calculator extends Component {
       calculatorState: newCalState
     });
     console.log("State Updated: ");
+    console.log(this.state.calculatorState);
 
   }
 
@@ -73,25 +74,25 @@ class Calculator extends Component {
     this.setState({
       calculatorState: {
         operand1: "0",
-        operand2: "",
+        operand2: "0",
         operator: "0",
-        result: ""
+        result: "",
+        apiCall:"0"
       }
     });
   }
 
   handleOperatorInput(operator) {
- debugger
     let newCalState = this.state.calculatorState;
    
     if(newCalState.operand2 != "" && newCalState.operand1=="0" || newCalState.operator == "0"){
       newCalState.operand1 = newCalState.operand2;
       newCalState.operand2 = "";  
     }
-    if (operator.indexOf("*") > -1) { newCalState.operator = 1; };
-    if (operator.indexOf("/") > -1) { newCalState.operator = 2; };
-    if (operator.indexOf("+") > -1) { newCalState.operator = 3; };
-    if (operator.indexOf("-") > -1) { newCalState.operator = 4; };
+    if (operator.indexOf("*") > -1) { newCalState.operator = '1'; };
+    if (operator.indexOf("/") > -1) { newCalState.operator = '2'; };
+    if (operator.indexOf("+") > -1) { newCalState.operator = '3'; };
+    if (operator.indexOf("-") > -1) { newCalState.operator = '4'; };
    
     this.updateState(newCalState);
   }
@@ -99,23 +100,41 @@ class Calculator extends Component {
   
 
   handleCalculation() {
-    let apiPayload = this.state.calculatorState;
-    axios.post(this.props.url, apiPayload)
-      .then(res => {
-        console.log(res);
-        var newCalState = this.state.calculatorState;
-        newCalState.operand2 = res.data.operand2;
-        newCalState.operand1 = res.data.operand1;
-        newCalState.operator = "0";
-        newCalState.result = res.data.result;
-        console.log(newCalState);
-        this.updateState(newCalState);
-      });
+    if(this.state.calculatorState.operand2==='0' && this.state.calculatorState.operator==='2'){
+      // eslint-disable-next-line
+      if(confirm('Divide by Zero not allowed')){
+        this.handleAllClear();
+      }
+      alert('All cleared start again')
+    }else{
+      let apiPayload = this.state.calculatorState;
+      console.log(apiPayload);
+      axios.post(this.props.url, apiPayload)
+        .then(res => {
+          console.log(res);
+          if(res.data.messageCode==0){
+            var newCalState = this.state.calculatorState;
+            newCalState.operand2 = ''+res.data.operand2;
+            newCalState.operand1 = ''+res.data.operand1;
+            newCalState.operator = "0";
+            newCalState.result = res.data.result;
+            console.log(newCalState);
+            this.updateState(newCalState);  
+          }else{
+               // eslint-disable-next-line
+            if(confirm(res.data.message)){
+              this.handleAllClear();
+            }
+            alert('All cleared start again')                  
+          }
+            
+        });
+    }
+   
 
   }
 
   handlePosNeg() {
-    debugger
     let newCalState = this.state.calculatorState;
     console.log(newCalState);
     if( newCalState.operand2 != "" ){
@@ -138,11 +157,12 @@ class Calculator extends Component {
         <p className="bg-primary"><h1>Calculator</h1></p>
 
 
-        <CalculatorDisplay calculatorState={this.state.calculatorState} />
+       
 
 
 
         <div>
+        <CalculatorDisplay calculatorState={this.state.calculatorState} />
           <div >
             <CalculatorButton className="btn" value="7" buttonClicked={this.handleDigitInput.bind(this)} />
             <CalculatorButton className="btn" value="8" buttonClicked={this.handleDigitInput.bind(this)} />

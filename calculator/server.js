@@ -40,70 +40,86 @@ app.use('/api', router);
 
 //calculate API
 router.route('/calculate').post(function (req, res) {
+    try {
+        console.log("Request Received on Server");
+        console.log("Request Data:");
+        console.log(req.body);
 
-    console.log("Request Received on Server");
-    console.log(req.body);
-   
-    if(req.body.operator && req.body.operand1 && req.body.operand1 ){
-        let expression =''; 
-        if (req.body.operator == 1) { expression= req.body.operand1 +'*'+ req.body.operand2 };
-        if (req.body.operator == 2) { expression= req.body.operand1 +'/'+ req.body.operand2  };
-        if (req.body.operator == 3) { expression= req.body.operand1 +'+'+ req.body.operand2  };
-        if (req.body.operator == 4) { expression= req.body.operand1 +'-'+ req.body.operand2  };
-    
-        
-        
-        console.log("Expression in Evaluation : "+expression);
-       // var re = new Regex("^\s*([-+]*)(\d+)(\.?\d+)(?:\s*([-+*\/])([-+]*)(\d*)(\.?\d+)\s*)");
-        //console.log(re.test(expression));
-        const regex = /^\s*([-+]*)(\d*)(\.?\d*)(?:\s*([-+*\/])\s*((?:\s*[-+])?(\d*)(\.?\d*))\s*)+$/g;
-        let m;
-        
-        m = regex.exec(expression);
-        if(m[0]==expression){
-        var serverState = {
-            history: expression,
-            operand1: "0",
-            operand2: "0",
-            operator: "0",
-            message: "",
-            messageCode: "", //0 for success, rest all fail cases
-            result: ""
-        }
-    
-        if (req.body.operator == 1) { serverState.operand2 = eval(req.body.operand1) * eval(req.body.operand2); };
-        if (req.body.operator == 2) { serverState.operand2 = eval(req.body.operand1) / eval(req.body.operand2); };
-        if (req.body.operator == 3) { serverState.operand2 = eval(req.body.operand1) + eval(req.body.operand2); };
-        if (req.body.operator == 4) { serverState.operand2 = eval(req.body.operand1) - eval(req.body.operand2); };
-    
-        serverState.result = serverState.operand2;
-        serverState.message = "POST request successfully executed";
-        serverState.messageCode = "0";
-        
-        if(req.body.apiCall){
-            res.json(serverState);
-        }else{
-            res.json({ result: serverState.operand2});
-          
-            
-        }
+        if (req.body.operator && req.body.operand1 && req.body.operand1) {
+            let expression = '';
+            if (req.body.operator == 1) { expression = req.body.operand1 + '*' + req.body.operand2 };
+            if (req.body.operator == 2) { expression = req.body.operand1 + '/' + req.body.operand2 };
+            if (req.body.operator == 3) { expression = req.body.operand1 + '+' + req.body.operand2 };
+            if (req.body.operator == 4) { expression = req.body.operand1 + '-' + req.body.operand2 };
 
+            console.log("Expression in Evaluation : " + expression);
+            const regex = /^\s*([-+]*)(\d*)(\.?\d*)(?:\s*([-+*\/])\s*((?:\s*[-+])?(\d*)(\.?\d*))\s*)+$/g;
+            let m;
+
+            m = regex.exec(expression);
+            if (m[0] == expression) {
+                console.log("Regex test pass");
+
+                var serverState = {
+                    history: expression,
+                    operand1: "0",
+                    operand2: "0",
+                    operator: "0",
+                    message: "",
+                    messageCode: "", //0 for success, rest all fail cases
+                    result: ""
+                }
+
+                if (req.body.operator == 1) { serverState.operand2 = eval(req.body.operand1) * eval(req.body.operand2); }
+                else if (req.body.operator == 2) { serverState.operand2 = eval(req.body.operand1) / eval(req.body.operand2); }
+                else if (req.body.operator == 3) { serverState.operand2 = eval(req.body.operand1) + eval(req.body.operand2); }
+                else if (req.body.operator == 4) { serverState.operand2 = eval(req.body.operand1) - eval(req.body.operand2); }
+
+                serverState.result = '' + serverState.operand2;
+                serverState.operand2 = '' + serverState.operand2
+                serverState.message = "POST request successfully executed";
+                serverState.messageCode = "0";
+
+                if (req.body.apiCall) {
+                    console.log('Response : ');
+                    console.log(serverState);
+                    res.json(serverState);
+                } else {
+                    res.json({ result: serverState.operand2 });
+                }
+            }
+            else {
+                console.log("ERROR in parameters");
+                let response = {
+                    message: 'Please provide operand1, operand2 and operator in correct format',
+                    messageCode: "1"
+                }
+                res.json(response);
+
+            }
+        } else {
+            console.log("ERROR in parameters");
+            let response = {
+                message: 'Please provide operand1, operand2 and operator in correct format',
+                messageCode: "2"
+            }
+            res.json(response);
         }
-        else{
-            console.log("ERROR in POST");
-            res.json({ message: 'Please provide operand1, operand2 and operator in correct format'});
-            
-        }      
-    }else{
-        res.json({ message: 'provide operand1, operand2 and operator with POST request in JSON format'});        
+    } catch (error) {
+        console.log("Exception");
+        let response = {
+            message: error4message,
+            messageCode: "3"
+        }
+        res.json(response);
     }
-    
+
 });
 
 router.route('/calculate').get(function (req, res) {
     console.log("GET Request Received on Server");
-        res.json({ message: 'provide operand1, operand2 and operator in JSON format'});        
-    
+    res.json({ message: 'provide operand1, operand2 and operator in JSON format' });
+
 });
 
 //starts the server and listens for requests
