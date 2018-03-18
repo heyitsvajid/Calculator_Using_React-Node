@@ -108,7 +108,7 @@ router.route('/calculate').post(function (req, res) {
     } catch (error) {
         console.log("Exception");
         let response = {
-            message: error4message,
+            message: 'Invalid Input',
             messageCode: "3"
         }
         res.json(response);
